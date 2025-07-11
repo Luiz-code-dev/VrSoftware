@@ -2,17 +2,18 @@ package com.luizeduardo.pedidos.gui.client;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import lombok.extern.java.Log;
 import okhttp3.*;
+import java.util.logging.Logger;
 
 import java.io.IOException;
+import com.luizeduardo.pedidos.gui.model.Pedido;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import java.util.logging.Level;
 
-@Log
 public class PedidoClient {
-    private static final String BASE_URL = "http://localhost:8080/api/pedidos";
+    private static final Logger log = Logger.getLogger(PedidoClient.class.getName());
+    private static final String BASE_URL = "http://localhost:8081/api/pedidos";
     private final OkHttpClient client;
     private final ObjectMapper objectMapper;
     public static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
@@ -24,12 +25,11 @@ public class PedidoClient {
     }
 
     public UUID enviarPedido(String produto, int quantidade) throws IOException {
-        PedidoRequest pedido = new PedidoRequest(
-            UUID.randomUUID(),
-            produto,
-            quantidade,
-            LocalDateTime.now()
-        );
+        Pedido pedido = new Pedido();
+        pedido.setId(UUID.randomUUID());
+        pedido.setProduto(produto);
+        pedido.setQuantidade(quantidade);
+        pedido.setDataCriacao(LocalDateTime.now());
 
         String json = objectMapper.writeValueAsString(pedido);
         RequestBody body = RequestBody.create(json, JSON);
@@ -62,5 +62,4 @@ public class PedidoClient {
         }
     }
 
-    public record PedidoRequest(UUID id, String produto, int quantidade, LocalDateTime dataCriacao) {}
 }

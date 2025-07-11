@@ -1,14 +1,14 @@
 package com.luizeduardo.pedidos.gui.worker;
 
 import com.luizeduardo.pedidos.gui.client.PedidoClient;
-import lombok.extern.java.Log;
+import java.util.logging.Logger;
 
 import javax.swing.*;
 import java.util.UUID;
 import java.util.logging.Level;
 
-@Log
 public class PollingWorker extends SwingWorker<Void, String> {
+    private static final Logger log = Logger.getLogger(PollingWorker.class.getName());
     private final PedidoClient client;
     private final UUID pedidoId;
     private final JTable statusTable;

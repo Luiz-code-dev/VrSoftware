@@ -31,7 +31,7 @@ mvn clean package
 java -jar target/pedidos-backend-1.0.0.jar
 ```
 
-O backend estará disponível em http://localhost:8080
+O backend estará disponível em http://localhost:8081
 
 ### GUI (Java Swing)
 
@@ -99,7 +99,7 @@ mvn test
 ## Checklist de Testes Manuais
 
 1. Backend:
-   - [ ] Verificar se o servidor iniciou (GET http://localhost:8080/actuator/health)
+   - [ ] Verificar se o servidor iniciou (GET http://localhost:8081/actuator/health)
    - [ ] Testar POST /api/pedidos com payload válido
    - [ ] Testar validações (quantidade <= 0, produto vazio)
    - [ ] Verificar criação das filas no RabbitMQ Management
