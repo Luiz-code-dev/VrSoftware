@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  # RabbitMQ local para desenvolvimento/testes
+  rabbitmq:
+    image: rabbitmq:3.12-management
+    ports:
+      - "5672:5672"   # AMQP
+      - "15672:15672" # Management UI
+    environment:
+      - RABBITMQ_DEFAULT_USER=vrsoftware
+      - RABBITMQ_DEFAULT_PASS=6uOVxR6dy1H7Zqfz
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+
+volumes:
+  rabbitmq_data:

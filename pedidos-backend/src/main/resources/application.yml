@@ -1,0 +1,14 @@
+spring:
+  rabbitmq:
+    host: ${RABBITMQ_HOST:137.131.204.96}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USERNAME:vrsoftware}
+    password: ${RABBITMQ_PASSWORD:6uOVxR6dy1H7Zqfz}
+    virtual-host: ${RABBITMQ_VIRTUAL_HOST:/}
+
+server:
+  port: 8080
+
+logging:
+  level:
+    com.luizeduardo.pedidos: DEBUG
