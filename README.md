@@ -41,18 +41,6 @@ mvn clean package
 java -jar target/pedidos-gui-1.0.0.jar
 ```
 
-## Variáveis de Ambiente (Backend)
-
-O backend pode ser configurado através das seguintes variáveis de ambiente:
-
-```bash
-RABBITMQ_HOST=137.131.204.96
-RABBITMQ_PORT=5672
-RABBITMQ_USERNAME=vrsoftware
-RABBITMQ_PASSWORD=6uOVxR6dy1H7Zqfz
-RABBITMQ_VIRTUAL_HOST=/
-```
-
 ## Filas RabbitMQ
 
 - `pedidos.entrada.luiz-eduardo`: Fila principal de pedidos
