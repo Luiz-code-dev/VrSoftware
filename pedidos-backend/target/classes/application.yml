@@ -1,0 +1,14 @@
+spring:
+  rabbitmq:
+    host: 137.131.204.96
+    port: 5672
+    username: vrsoftware
+    password: 6uOVxR6dy1H7Zqfz
+    virtual-host: /
+
+server:
+  port: 8080
+
+logging:
+  level:
+    com.luizeduardo.pedidos: DEBUG
