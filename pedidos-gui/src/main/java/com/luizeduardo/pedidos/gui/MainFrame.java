@@ -7,6 +7,7 @@ import lombok.extern.java.Log;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.io.IOException;
 import java.util.UUID;
 import java.util.logging.Level;
 

@@ -18,7 +18,6 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class PedidoServiceTest {
-
     @Mock
     private RabbitTemplate rabbitTemplate;
 
@@ -30,11 +29,12 @@ class PedidoServiceTest {
     }
 
     @Test
-    void deveProcessarPedidoComSucesso() {
+    void devePublicarPedidoNaFila() {
         // Arrange
+        UUID id = UUID.randomUUID();
         Pedido pedido = new Pedido();
-        pedido.setId(UUID.randomUUID());
-        pedido.setProduto("Teste");
+        pedido.setId(id);
+        pedido.setProduto("Produto Teste");
         pedido.setQuantidade(1);
         pedido.setDataCriacao(LocalDateTime.now());
 
@@ -42,8 +42,8 @@ class PedidoServiceTest {
         pedidoService.processarPedido(pedido);
 
         // Assert
-        verify(rabbitTemplate, times(1)).convertAndSend(QUEUE_PEDIDOS, pedido);
-        assertEquals("RECEBIDO", pedidoService.getStatusPedido(pedido.getId()));
+        verify(rabbitTemplate, times(1)).convertAndSend(eq(QUEUE_PEDIDOS), eq(pedido));
+        assertEquals(StatusPedido.RECEBIDO.name(), pedidoService.getStatusPedido(id));
     }
 
     @Test
@@ -55,7 +55,7 @@ class PedidoServiceTest {
         pedidoService.atualizarStatus(id, StatusPedido.PROCESSANDO);
 
         // Assert
-        assertEquals("PROCESSANDO", pedidoService.getStatusPedido(id));
+        assertEquals(StatusPedido.PROCESSANDO.name(), pedidoService.getStatusPedido(id));
     }
 
     @Test
