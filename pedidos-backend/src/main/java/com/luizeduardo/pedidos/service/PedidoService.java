@@ -21,17 +21,32 @@ public class PedidoService {
     private final Map<UUID, String> statusPedidos = new ConcurrentHashMap<>();
 
     public void processarPedido(Pedido pedido) {
-        log.info("Processando pedido: {}", pedido.getId());
+        log.info("Iniciando processamento do pedido - ID: {}, Produto: {}, Quantidade: {}", 
+            pedido.getId(), pedido.getProduto(), pedido.getQuantidade());
+        
         statusPedidos.put(pedido.getId(), StatusPedido.RECEBIDO.name());
-        rabbitTemplate.convertAndSend(QUEUE_PEDIDOS, pedido);
+        log.debug("Status do pedido {} atualizado para RECEBIDO", pedido.getId());
+        
+        try {
+            rabbitTemplate.convertAndSend(QUEUE_PEDIDOS, pedido);
+            log.info("Pedido {} enviado com sucesso para a fila {}", pedido.getId(), QUEUE_PEDIDOS);
+        } catch (Exception e) {
+            log.error("Erro ao enviar pedido {} para a fila: {}", pedido.getId(), e.getMessage());
+            statusPedidos.put(pedido.getId(), "ERRO_ENVIO");
+            throw e;
+        }
     }
 
     public String getStatusPedido(UUID id) {
-        return statusPedidos.getOrDefault(id, "PEDIDO_NAO_ENCONTRADO");
+        String status = statusPedidos.getOrDefault(id, "PEDIDO_NAO_ENCONTRADO");
+        log.debug("Consultando status do pedido {} - Status atual: {}", id, status);
+        return status;
     }
 
     public void atualizarStatus(UUID id, StatusPedido status) {
+        String statusAntigo = statusPedidos.get(id);
         statusPedidos.put(id, status.name());
-        log.info("Status do pedido {} atualizado para: {}", id, status);
+        log.info("Status do pedido {} atualizado: {} -> {}", id, 
+            statusAntigo != null ? statusAntigo : "NOVO", status);
     }
 }

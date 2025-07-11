@@ -14,10 +14,12 @@ Sistema distribuído composto por uma aplicação desktop Java Swing que se comu
 
 - Java 17+
 - Maven 3.8+
-- RabbitMQ (disponível em amqp://137.131.204.96:5672)
-  - User: vrsoftware
-  - Pass: 6uOVxR6dy1H7Zqfz
-  - Management UI: http://137.131.204.96:15672
+
+## RabbitMQ
+
+O sistema utiliza um servidor RabbitMQ já configurado e disponível para o teste prático. A configuração está definida no arquivo `application.yml` do backend.
+
+> Nota: Um docker-compose.yml está incluído apenas para referência de desenvolvimento local, mas não é necessário para executar o sistema.
 
 ## Build e Execução
 

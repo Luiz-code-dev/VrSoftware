@@ -75,11 +75,32 @@ public class MainFrame extends JFrame {
         String produto = produtoField.getText().trim();
         int quantidade = (Integer) quantidadeSpinner.getValue();
 
+        // Validação do produto
         if (produto.isEmpty()) {
             JOptionPane.showMessageDialog(this,
                 "O produto não pode estar vazio",
                 "Erro de Validação",
                 JOptionPane.ERROR_MESSAGE);
+            produtoField.requestFocus();
+            return;
+        }
+        
+        if (produto.length() < 3) {
+            JOptionPane.showMessageDialog(this,
+                "O nome do produto deve ter pelo menos 3 caracteres",
+                "Erro de Validação",
+                JOptionPane.ERROR_MESSAGE);
+            produtoField.requestFocus();
+            return;
+        }
+
+        // Validação da quantidade
+        if (quantidade <= 0) {
+            JOptionPane.showMessageDialog(this,
+                "A quantidade deve ser maior que zero",
+                "Erro de Validação",
+                JOptionPane.ERROR_MESSAGE);
+            quantidadeSpinner.requestFocus();
             return;
         }
 
@@ -95,11 +116,22 @@ public class MainFrame extends JFrame {
             produtoField.setText("");
             quantidadeSpinner.setValue(1);
             
-        } catch (Exception e) {
-            log.log(Level.SEVERE, "Erro ao enviar pedido", e);
+        } catch (IOException e) {
+            log.log(Level.SEVERE, "Erro de comunicação ao enviar pedido", e);
+            String mensagem = "Erro ao comunicar com o servidor. Verifique se o backend está em execução.\n" +
+                            "Detalhes: " + e.getMessage();
             JOptionPane.showMessageDialog(this,
-                "Erro ao enviar pedido: " + e.getMessage(),
-                "Erro",
+                mensagem,
+                "Erro de Comunicação",
+                JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "Erro inesperado ao enviar pedido", e);
+            String mensagem = "Ocorreu um erro inesperado ao processar seu pedido.\n" +
+                            "Por favor, tente novamente ou contate o suporte se o erro persistir.\n" +
+                            "Detalhes: " + e.getMessage();
+            JOptionPane.showMessageDialog(this,
+                mensagem,
+                "Erro Inesperado",
                 JOptionPane.ERROR_MESSAGE);
         }
     }
